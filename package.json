@@ -11,7 +11,7 @@
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "description": "",
+  "description": "hi",
   "dependencies": {
     "cors": "^2.8.5",
     "dotenv": "^17.2.2",
@@ -20,6 +20,11 @@
     "jsonwebtoken": "^9.0.2",
     "mongoose": "^8.18.2",
     "multer": "^2.0.2",
+    "ollama": "^0.6.3",
     "redis": "^5.8.2"
-  }
+  },
+  "directories": {
+    "doc": "docs"
+  },
+  "devDependencies": {}
 }
