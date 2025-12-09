@@ -17,7 +17,7 @@ STRICT RULES:
   "meal": "breakfast" | "lunch" | "dinner",
   "food": "<short descriptive food name>",
   "calories": <numeric value in kcal>,
-  "weight": "<approximate portion weight in grams>",
+  "weight": "<approximate portion weight in grams only numeric>",
   "proteins": <grams of protein>,
   "carbs": <grams of carbohydrates>,
   "fats": <grams of fats>,
