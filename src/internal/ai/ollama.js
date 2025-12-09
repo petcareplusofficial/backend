@@ -27,7 +27,7 @@ const AiService = async (prompt, info, type) => {
   }
 
   const response = await ollama.chat({
-    model: "qwen2.5-coder:14b",
+    model: "gpt-oss:120b-cloud",
     messages: [
       { 
         role: "system", 
