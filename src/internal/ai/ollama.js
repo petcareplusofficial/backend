@@ -1,6 +1,15 @@
+import { Ollama } from "ollama";
 import sysPrompt from "./dietPrompts.js";
 import supplementPrompt from "./supplementPrompts.js";
 import vaccinePrompt from "./vaccinePrompts.js";
+
+const ollama = new Ollama({
+  host: "https://ollama.com",
+  headers: {
+    Authorization: "Bearer " + process.env.OLLAMA_API_KEY,
+  },
+});
+
 const AiService = async (prompt, info, type) => {
   let aiPrompt = null;
   switch (type) {
@@ -17,23 +26,23 @@ const AiService = async (prompt, info, type) => {
       throw new Error("Invalid type");
   }
 
-  const response = await fetch("http://localhost:11434/api/generate", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({
-      model: "qwen2.5-coder:14b",
-      prompt: aiPrompt,
-      stream: false,
-    }),
+  const response = await ollama.chat({
+    model: "qwen2.5-coder:14b",
+    messages: [
+      { 
+        role: "system", 
+        content: "You are a pet care AI assistant. Always respond with valid JSON." 
+      },
+      { 
+        role: "user", 
+        content: aiPrompt 
+      }
+    ],
+    stream: false,
+    format: "json",
   });
-  if (!response.ok) {
-    throw new Error(`HTTP error! status: ${response.status}`);
-  }
-
-  const data = await response.json();
-  let respStr = data.response.trim();
+ 
+  let respStr = response.message.content.trim();
 
   respStr = respStr
     .replace(/^```json/i, "")
@@ -42,7 +51,7 @@ const AiService = async (prompt, info, type) => {
     .trim();
 
   try {
-    return JSON.parse(respStr);
+    return JSON.parse(respStr); 
   } catch {
     return respStr;
   }
